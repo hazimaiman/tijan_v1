@@ -1,57 +1,73 @@
 import React, { useEffect, useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "Resources", to: "/resources" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
+];
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
-  // Add blur + tint once you scroll a bit
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+
+    if (isHome) {
+      onScroll();
+      window.addEventListener("scroll", onScroll);
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+
+    setScrolled(true);
+    return undefined;
+  }, [isHome]);
+
+  useEffect(() => {
+    setNav(false);
+  }, [location.pathname]);
+
+  const desktopLinkClass = ({ isActive }) =>
+    `p-4 transition-colors ${isActive ? "text-[#1c9bf0]" : "text-white hover:text-[#1c9bf0]"}`;
+
+  const mobileLinkClass = ({ isActive }) =>
+    `block rounded-lg p-4 transition-colors ${
+      isActive ? "bg-[#1c9bf0]/20 text-[#1c9bf0]" : "text-white hover:bg-white/10"
+    }`;
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300
-        ${
-          scrolled
-            ? "bg-black/30 backdrop-blur-md supports-[backdrop-filter]:bg-black/20 border-b border-white/10"
-            : "bg-transparent"
-        }`}
+      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
+        scrolled
+          ? "bg-black/30 backdrop-blur-md supports-[backdrop-filter]:bg-black/20 border-b border-white/10"
+          : "bg-transparent"
+      }`}
     >
-      <div className="flex justify-between items-center h-16 md:h-20 max-w-[1240px] mx-auto px-4 text-white">
-        <a href="#" className="w-full text-3xl font-bold text-[#1c9bf0]">
+      <div className="flex h-16 max-w-[1240px] items-center justify-between px-4 text-white md:h-20 mx-auto">
+        <Link to="/" className="text-3xl font-bold text-[#1c9bf0]">
           TIJAN <span className="text-base">AT</span>.
-        </a>
+        </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex">
           <ul className="flex items-center">
-            <li className="p-4 hover:text-[#1c9bf0] transition-colors">
-              <a href="#home">Home</a>
-            </li>
-            <li className="p-4 hover:text-[#1c9bf0] transition-colors">
-              <a href="#company">Company</a>
-            </li>
-            <li className="p-4 hover:text-[#1c9bf0] transition-colors">
-              <a href="#resources">Resources</a>
-            </li>
-            <li className="p-4 hover:text-[#1c9bf0] transition-colors">
-              <a href="#about">About</a>
-            </li>
-            <li className="p-4 hover:text-[#1c9bf0] transition-colors">
-              <a href="#contact">Contact</a>
-            </li>
+            {navItems.map((item) => (
+              <li key={item.to}>
+                <NavLink to={item.to} end={item.to === "/"} className={desktopLinkClass}>
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </nav>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setNav((v) => !v)}
-          className="block md:hidden p-2"
+          className="block p-2 md:hidden"
           aria-label="Toggle menu"
           aria-expanded={nav}
         >
@@ -59,63 +75,45 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile drawer + backdrop */}
       <div
-        className={`md:hidden fixed inset-0 z-40 transition ${
+        className={`fixed inset-0 z-40 transition md:hidden ${
           nav ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
-        {/* Clickable dark backdrop so video still shows behind */}
         <div
           onClick={() => setNav(false)}
-          className={`absolute inset-0 transition-opacity ${
+          className={`absolute inset-0 bg-black/50 transition-opacity ${
             nav ? "opacity-100" : "opacity-0"
-          } bg-black/50`}
+          }`}
         />
-        {/* Sliding panel */}
+
         <aside
-          className={`absolute top-0 left-0 h-full w-[72%] max-w-xs bg-black/40 backdrop-blur-xl
-                      border-r border-white/10 text-white transform transition-transform duration-300
-                      ${nav ? "translate-x-0" : "-translate-x-full"}`}
+          className={`absolute top-0 left-0 h-full w-[72%] max-w-xs border-r border-white/10 bg-black/40 text-white backdrop-blur-xl transform transition-transform duration-300 ${
+            nav ? "translate-x-0" : "-translate-x-full"
+          }`}
         >
-          <div className="px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center justify-between px-4 py-4">
             <span className="text-2xl font-bold text-[#1c9bf0]">
               TIJAN <span className="text-sm">AT</span>.
             </span>
-            <button
-              onClick={() => setNav(false)}
-              className="p-2"
-              aria-label="Close menu"
-            >
+            <button onClick={() => setNav(false)} className="p-2" aria-label="Close menu">
               <AiOutlineClose size={22} />
             </button>
           </div>
-          <ul className="px-2">
-            <li className="p-4 border-b border-white/10">
-              <a href="#home" onClick={() => setNav(false)}>
-                Home
-              </a>
-            </li>
-            <li className="p-4 border-b border-white/10">
-              <a href="#company" onClick={() => setNav(false)}>
-                Company
-              </a>
-            </li>
-            <li className="p-4 border-b border-white/10">
-              <a href="#resources" onClick={() => setNav(false)}>
-                Resources
-              </a>
-            </li>
-            <li className="p-4 border-b border-white/10">
-              <a href="#about" onClick={() => setNav(false)}>
-                About
-              </a>
-            </li>
-            <li className="p-4">
-              <a href="#contact" onClick={() => setNav(false)}>
-                Contact
-              </a>
-            </li>
+
+          <ul className="space-y-1 px-2">
+            {navItems.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  end={item.to === "/"}
+                  className={mobileLinkClass}
+                  onClick={() => setNav(false)}
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </aside>
       </div>

@@ -4,12 +4,10 @@ import bgVideo from "../assets/background_telco.mp4";
 
 const Hero = () => {
   return (
-    // 👇 id="home" is the target; scroll-mt-* offsets the fixed navbar height
     <section
       id="home"
       className="relative min-h-screen overflow-hidden scroll-mt-24 md:scroll-mt-28"
     >
-      {/* Background video */}
       <video
         className="absolute inset-0 h-full w-full object-cover"
         src={bgVideo}
@@ -20,26 +18,26 @@ const Hero = () => {
         preload="metadata"
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/65 to-slate-950/75" />
 
-      {/* Content */}
       <div className="relative z-10 text-white">
-        {/* ⛔ remove mt-[-96px]; ✅ use top padding to clear the navbar */}
-        <div className="max-w-[800px] w-full h-screen mx-auto text-center flex flex-col justify-center pt-24 md:pt-28">
-          <p className="text-[#1c9bf0] font-bold p-2">
+        <div className="mx-auto flex h-screen w-full max-w-[980px] flex-col justify-center px-4 pt-24 text-center sm:px-6 md:pt-28">
+          <p className="p-2 text-sm font-bold tracking-[0.16em] text-[#1c9bf0] sm:text-base">
             SCALING DESPITE NETWORK CHALLENGES
           </p>
-          <h1 className="md:text-7xl sm:text-6xl text-4xl font-bold md:py-6">
+
+          <h1 className="py-3 text-3xl font-bold leading-tight sm:py-4 sm:text-5xl md:py-6 md:text-7xl">
             Grow with network.
           </h1>
 
-          <div className="flex justify-center items-center">
-            <p className="md:text-5xl sm:text-4xl text-xl font-bold py-4">
-              Increase, Efficiently Telco for
-            </p>
-            <span className="md:text-5xl sm:text-4xl text-xl font-bold md:pl-4 pl-2">
+          <p className="text-xl font-semibold text-white/95 sm:text-3xl md:text-5xl">
+            Increasing Efficiency for
+          </p>
+
+          <div className="mt-2 flex h-12 items-center justify-center sm:h-16 md:h-24">
+            <span className="inline-flex min-w-[12ch] justify-center whitespace-nowrap text-[1.65rem] font-bold leading-tight text-[#1c9bf0] sm:text-4xl md:text-5xl">
               <Typewriter
-                words={["CT", "FB", "DC"]}
+                words={["Cell Towers", "Fiber Optics", "Data Centers"]}
                 loop={true}
                 cursor
                 cursorStyle="|"
@@ -50,12 +48,12 @@ const Hero = () => {
             </span>
           </div>
 
-          <p className="md:text-2xl text-xl font-bold text-gray-300">
-            Maintaining and upgrading the Physical Infrastructure such as Cell
-            Tower, Fiber Optics and Data Center
+          <p className="mx-auto mt-2 max-w-3xl text-base font-medium leading-relaxed text-slate-200 sm:text-lg md:text-2xl">
+            Maintaining and upgrading the physical infrastructure such as cell
+            towers, fiber optics and data centers.
           </p>
 
-          <button className="bg-[#1c9bf0] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-white">
+          <button className="mx-auto my-8 w-[210px] rounded-full bg-[#1c9bf0] py-3 font-semibold text-white shadow-lg shadow-cyan-500/20 transition hover:brightness-110">
             Read More
           </button>
         </div>

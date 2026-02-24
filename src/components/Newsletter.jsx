@@ -20,7 +20,7 @@ const Newsletter = () => {
               <button
                 className="bg-[#1c9bf0] text-white rounded-md font-medium w-[200px] ml-4 my-6 px-6 py-3"
                 onClick={() => {
-                  window.location.href = "mailto:enquiry@tijan.com";
+                  window.location.href = "mailto:general@tijan.my";
                 }}
               >
                 Notify Me
